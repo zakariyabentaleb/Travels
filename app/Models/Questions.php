@@ -14,9 +14,9 @@ class Questions extends Model
     {
         return $this->belongsTo(User::class, 'utilisateur_id');
     }
-    public function question()
+    public function answers()
     {
-        return $this->belongsTo(Questions::class, 'question_id');
+        return $this->hasMany(Answer::class);
     }
    
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Answer;
 use App\Models\Questions;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 class AnswersController extends Controller
 {
@@ -28,16 +29,16 @@ class AnswersController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Questions $question)
     {
-       
-         Answer::create([
-           
-            'contenu' => $request->contenu,
-            'utilisateur_id' => auth()->guard()->user()->id
-        ]);
-        return redirect()->route('questions.index')
-        ->withSuccess('La question a été ajoutée avec succès.');
+        // dd($question->id);
+        // dd(request()->all());
+        $rpnse = new Answer();
+        $rpnse-> questions_id = $question->id;
+        $rpnse->contenu = request()->get('content');
+        $rpnse->utilisateur_id =Auth::id();
+        $rpnse->save();
+        return redirect()->route('questions.show',$question -> id );
     }
 
     /**
@@ -47,8 +48,7 @@ class AnswersController extends Controller
 
     {
          
-          $question = Questions::find($id);
-        return  view('questions.show', compact('question'));
+         
     }
 
     /**
@@ -56,9 +56,8 @@ class AnswersController extends Controller
      */
     public function edit(Questions $question)
     {
-        return view('questions.edit', compact('question'));
+       
     }
-    
     /**
      * Update the specified resource in storage.
      */
@@ -71,17 +70,7 @@ class AnswersController extends Controller
     // }
     public function update(Request $request, Questions $question)
     {
-        $request->validate([
-            'titre' => 'required|string|max:255',
-            'contenu' => 'required|string',
-        ]);
-    
-        $question->update([
-            'titre' => $request->titre,
-            'contenu' => $request->contenu,
-        ]);
-    
-        return redirect()->route('questions.index')->with('success', 'Question mise à jour avec succès.');
+       
     }
     
 
@@ -90,9 +79,6 @@ class AnswersController extends Controller
      */
     public function destroy(Questions $questions)
     {
-        $questions->delete();
-
-        return redirect()->route('questions.index')
-                ->withSuccess('La question a été supprimée avec succès.');
+      
     }
 }

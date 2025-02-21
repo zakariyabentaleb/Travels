@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionsController;
+use App\Http\Controllers\AnswersController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,5 +29,10 @@ Route::get('/questions/{question}/edit', [QuestionsController::class, 'edit'])->
 Route::put('/questions/{question}', [QuestionsController::class, 'update'])->name('questions.update'); 
 Route::get('/questions/create', [QuestionsController::class, 'create'])->name('questions.create');
 Route::post('/questions', [QuestionsController::class, 'store'])->name('questions.store');
+
+Route::post('/questions/{question}/reponses',[AnswersController::class , 'store'])->name('questions.reponsestore');
+
+
+
 Route::delete('/questions/{questions}', [QuestionsController::class, 'destroy'])->name('questions.destroy');
 require __DIR__.'/auth.php';
