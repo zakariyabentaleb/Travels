@@ -7,12 +7,16 @@
     </div>
 
     <div class="mt-6">
-        <h2 class="text-xl font-semibold">Réponses</h2>
-@foreach($question->answers as $answer)
-<p>{{$answer->id}}</p>
-<p>{{$answer->contenu}}</p>
-<p>{{$answer->created_at}}</p>
-@endforeach  
+        <h2 class="text-2xl font-semibold text-gray-800">Réponses</h2>
+        <div class="space-y-4 mt-4">
+            @foreach($question->answers as $answer)
+                <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                    <p class="text-gray-900 font-medium">{{ $answer->user->name ?? 'Utilisateur Anonyme' }}</p>
+                    <p class="text-gray-700 mt-2">{{ $answer->contenu }}</p>
+                    <p class="text-sm text-gray-500 mt-2">Publié le : {{ $answer->created_at->format('d M Y, H:i') }}</p>
+                </div>
+            @endforeach
+        </div>
     </div>
 
     @auth
