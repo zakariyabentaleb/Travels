@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionsController;
 use App\Http\Controllers\AnswersController;
+use App\Http\Controllers\FavoriesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -32,6 +33,11 @@ Route::post('/questions', [QuestionsController::class, 'store'])->name('question
 
 Route::post('/questions/{question}/reponses',[AnswersController::class , 'store'])->name('questions.reponsestore');
 
+
+Route::post('/questions/{question}/favori', [FavoriesController::class, 'store'])->name('questions.favori');
+
+
+Route::get('/favories', [FavoriesController::class, 'index'])->name('favories.index');
 
 
 Route::delete('/questions/{questions}', [QuestionsController::class, 'destroy'])->name('questions.destroy');
