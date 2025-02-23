@@ -38,7 +38,7 @@ Route::post('/questions/{question}/favori', [FavoriesController::class, 'store']
 
 
 Route::get('/favories', [FavoriesController::class, 'index'])->name('favories.index');
-
-
+Route::get('/search', [QuestionsController::class, 'search'])->name('questions.search');
+ 
 Route::delete('/questions/{questions}', [QuestionsController::class, 'destroy'])->name('questions.destroy');
 require __DIR__.'/auth.php';

@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Questions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 class QuestionsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
         
@@ -19,17 +18,13 @@ class QuestionsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+   
     public function create()
     {
         return view('questions.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+   
     public function store(Request $request)
     {
        
@@ -44,9 +39,7 @@ class QuestionsController extends Controller
         ->withSuccess('La question a été ajoutée avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    
     public function show( $id)
 
     {
@@ -55,24 +48,13 @@ class QuestionsController extends Controller
         return  view('questions.show', compact('question'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+   
     public function edit(Questions $question)
     {
         return view('questions.edit', compact('question'));
     }
     
-    /**
-     * Update the specified resource in storage.
-     */
-    // public function update(Request $request, Questions $questions)
-    // {
-    //     $questions->update($request->validated());
-
-    //     return redirect()->back()
-    //             ->withSuccess('La question a été mise à jour avec succès.');
-    // }
+   
     public function update(Request $request, Questions $question)
     {
         $request->validate([
@@ -87,11 +69,27 @@ class QuestionsController extends Controller
     
         return redirect()->route('questions.index')->with('success', 'Question mise à jour avec succès.');
     }
+
+    public function search(Request $request){
+       
+
+        $searchTerm = $request->input('search');
+        $results = DB::table('questions')
+        ->where('titre', 'like', '%'.$searchTerm.'%')
+        ->get();
+
+     
+       
+
+          return view('questions.search',[
+               'search'=>$results,
+               'searchTerm'=>$searchTerm
+          ]);
+        
+    }
     
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(Questions $questions)
     {
         $questions->delete();
